@@ -1,0 +1,10 @@
+body {
+  color: #222;
+  font-family: sans-serif;
+  margin 2rem;
+}
+
+main {
+  margin: 0 auto;
+  max-width: 40rem;
+}
