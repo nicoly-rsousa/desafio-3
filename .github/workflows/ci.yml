@@ -1,0 +1,43 @@
+name: Validar e preparar entrega
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  validar-html:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Baixar código
+        uses: actions/checkout@v4
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Validar HTML com HTMLHint
+        run: npx --yes htmlhint "**/*.html"
+
+  validar-css:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Baixar código
+        uses: actions/checkout@v4
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Verificar sintaxe e formatação do CSS
+        run: npx --yes prettier --check --no-config "**/*.css"
+
+  preparar-entrega:
+    runs-on: ubuntu-latest
+    needs:
+      - validar-html
+      - validar-css
+    steps:
+      - name: Baixar código
+        uses: actions/checkout@v4
+      - name: Criar pacote em dist
+        run: |
+          mkdir -p dist
+          cp index.html styles.css dist/
